@@ -1,0 +1,15 @@
+# Données brutes et bases locales
+data/
+db/*.sqlite
+
+# Fichiers de travail locaux
+BACKLOG.md
+CLAUDE.md
+notes/
+
+# Python
+__pycache__/
+.venv/
+
+# Sauvegardes Power BI
+*.pbix.bak
