@@ -6,7 +6,7 @@
   s'ils diffèrent (aucune reprojection possible ici : pyproj est bloqué) ;
 - rattache chaque parcelle à un département par son point représentatif
   (point garanti à l'intérieur de la parcelle, contrairement au centroïde) ;
-- harmonise les codes qui ont changé de nomenclature (MIE devient MIS en 2022) ;
+- harmonise les codes de 2022 retirés depuis (EQUIVALENCES_CODES : MIE, PRL, RGA) ;
 - garde les codes culture d'intérêt puis agrège le nombre de parcelles et la
   somme de surf_parc par département et par code culture ;
 - remplace dans data/processed/surface_culture.csv les lignes de la campagne
@@ -36,8 +36,13 @@ SORTIE = RACINE / "data" / "processed" / "surface_culture.csv"
 CAMPAGNES = ("2022", "2023", "2024")
 CHAMPS_SORTIE = ["campagne", "departement", "code_culture", "nb_parcelles", "surface_ha"]
 CODES_CULTURE = ["BTH", "BTP", "MIS", "MID", "TRN", "SGH", "SGP", "PPH", "PTR"]
-# En 2022, le maïs ensilage a son propre code (MIE) ; depuis 2023, MIS couvre grain et ensilage.
-EQUIVALENCES_CODES = {"2022": {"MIE": "MIS"}}
+# Changement de nomenclature du RPG entre 2022 et 2023 : des codes de 2022 ont été retirés
+# et leurs parcelles reversées dans d'autres codes. Équivalences établies par comparaison
+# des totaux départementaux :
+#   MIE (maïs ensilage)                      -> MIS, qui couvre grain et ensilage depuis 2023 ;
+#   PRL (prairie en rotation longue, 6 ans+) -> PPH ;
+#   RGA (ray-grass de 5 ans ou moins)        -> PTR.
+EQUIVALENCES_CODES = {"2022": {"MIE": "MIS", "PRL": "PPH", "RGA": "PTR"}}
 
 # Lambert-93 (EPSG:2154) décrit par ses paramètres, pour comparer avec un WKT sans pyproj.
 LAMBERT93 = ("lambert_conformal_conic_2sp",
