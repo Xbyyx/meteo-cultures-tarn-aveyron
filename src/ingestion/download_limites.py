@@ -23,7 +23,9 @@ import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
+import pandas as pd
 import pyogrio
+from pyogrio.raw import read as lire_brut
 
 from list_rpg import USER_AGENT
 
@@ -105,7 +107,8 @@ def afficher_couche(chemin):
     print(f"Couche : {COUCHE} ({info['features']} entités, géométrie {info['geometry_type']})")
     print(f"Système de coordonnées : {info['crs']}")
     print(f"Colonnes : {', '.join(info['fields'])}")
-    print(pyogrio.read_dataframe(chemin, read_geometry=False).to_string(index=False))
+    _, _, _, champs = lire_brut(chemin, read_geometry=False)
+    print(pd.DataFrame(dict(zip(info["fields"], champs))).to_string(index=False))
 
 
 def main():
