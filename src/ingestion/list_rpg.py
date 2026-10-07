@@ -15,17 +15,17 @@ NB_PAGES = 35
 ZONE = "R76"
 PAUSE = 1.0  # secondes entre deux pages, le serveur limite le débit
 TENTATIVES = 4
+USER_AGENT = "Mozilla/5.0"
 NS = {
     "atom": "http://www.w3.org/2005/Atom",
     "gpf": "https://data.geopf.fr/annexes/ressources/xsd/gpf_dl.xsd",
 }
 
 
-def lire_page(numero):
-    """Renvoie la racine XML de la page demandée."""
-    url = f"{URL_FLUX}?page={numero}"
+def lire_xml(url):
+    """Renvoie la racine XML de l'URL demandée, avec nouvelles tentatives sur 429."""
     # Le serveur refuse l'agent utilisateur par défaut de urllib (403).
-    requete = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+    requete = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
     for tentative in range(1, TENTATIVES + 1):
         try:
             with urllib.request.urlopen(requete, timeout=60) as reponse:
@@ -34,6 +34,11 @@ def lire_page(numero):
             if erreur.code != 429 or tentative == TENTATIVES:
                 raise
             time.sleep(5 * tentative)
+
+
+def lire_page(numero):
+    """Renvoie la racine XML de la page demandée."""
+    return lire_xml(f"{URL_FLUX}?page={numero}")
 
 
 def extraire_entree(entree):
