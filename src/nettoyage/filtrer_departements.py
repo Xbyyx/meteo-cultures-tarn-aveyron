@@ -6,6 +6,7 @@
   s'ils diffèrent (aucune reprojection possible ici : pyproj est bloqué) ;
 - rattache chaque parcelle à un département par son point représentatif
   (point garanti à l'intérieur de la parcelle, contrairement au centroïde) ;
+- harmonise les codes qui ont changé de nomenclature (MIE devient MIS en 2022) ;
 - garde les codes culture d'intérêt puis agrège le nombre de parcelles et la
   somme de surf_parc par département et par code culture ;
 - remplace dans data/processed/surface_culture.csv les lignes de la campagne
@@ -35,6 +36,8 @@ SORTIE = RACINE / "data" / "processed" / "surface_culture.csv"
 CAMPAGNES = ("2022", "2023", "2024")
 CHAMPS_SORTIE = ["campagne", "departement", "code_culture", "nb_parcelles", "surface_ha"]
 CODES_CULTURE = ["BTH", "BTP", "MIS", "MID", "TRN", "SGH", "SGP", "PPH", "PTR"]
+# En 2022, le maïs ensilage a son propre code (MIE) ; depuis 2023, MIS couvre grain et ensilage.
+EQUIVALENCES_CODES = {"2022": {"MIE": "MIS"}}
 
 # Lambert-93 (EPSG:2154) décrit par ses paramètres, pour comparer avec un WKT sans pyproj.
 LAMBERT93 = ("lambert_conformal_conic_2sp",
@@ -155,6 +158,7 @@ def main():
     attribution = attribution[~attribution.index.duplicated()]  # point exactement sur une limite commune
     parcelles["departement"] = attribution.reindex(range(total)).to_numpy()
 
+    parcelles["code_cultu"] = parcelles["code_cultu"].replace(EQUIVALENCES_CODES.get(campagne, {}))
     rattachees = parcelles["departement"].notna()
     gardees = parcelles["code_cultu"].isin(CODES_CULTURE)
     print(f"Non rattachées à 12 ou 81 : {(~rattachees).sum()} sur {total} ({100 * (~rattachees).mean():.2f} %)")
