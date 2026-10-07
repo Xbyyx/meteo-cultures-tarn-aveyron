@@ -1,1 +1,3 @@
-# Aucune dépendance externe pour l'instant : le projet n'utilise que la bibliothèque standard Python.
+geopandas==1.2.0
+shapely==2.1.2
+pyogrio==0.13.0
