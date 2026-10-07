@@ -2,11 +2,6 @@
 data/
 db/*.sqlite
 
-# Fichiers de travail locaux
-BACKLOG.md
-CLAUDE.md
-notes/
-
 # Python
 __pycache__/
 .venv/
