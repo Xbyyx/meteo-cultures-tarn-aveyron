@@ -174,7 +174,7 @@ def main():
     lignes = [{"nom": archive.name, "taille": archive.stat().st_size,
                "date_telechargement": maintenant, "sha256": sha256_fichier(archive)}]
 
-    if archive.suffix == ".7z":
+    if archive.name.endswith((".7z", ".7z.001")):  # volume unique nommé .7z.001 pour certaines éditions
         for fichier in decompresser(archive, DOSSIER_SORTIE):
             lignes.append({"nom": fichier.relative_to(DOSSIER_SORTIE).as_posix(),
                            "taille": fichier.stat().st_size, "date_telechargement": maintenant,
