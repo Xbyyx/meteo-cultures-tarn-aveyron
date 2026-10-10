@@ -1,0 +1,21 @@
+table Campagne
+	lineageTag: 181305b5-9ab9-5d4a-8a63-b6f6a2d706ef
+
+	column campagne
+		dataType: int64
+		formatString: 0
+		lineageTag: 2d9a00fd-9f4a-54d9-b46b-454dbd13b455
+		summarizeBy: none
+		sourceColumn: campagne
+
+		annotation SummarizationSetBy = User
+
+	partition Campagne = m
+		mode: import
+		source =
+				let
+				    Source = #table(type table [campagne = Int64.Type], {{2022}, {2023}, {2024}})
+				in
+				    Source
+
+	annotation PBI_ResultType = Table

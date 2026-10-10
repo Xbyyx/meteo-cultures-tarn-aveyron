@@ -1,0 +1,134 @@
+table meteo_mensuelle
+	lineageTag: 784cc512-7e2c-47ee-a5a4-b4ff1c1a045a
+
+	measure 'Pluie (mm)' = AVERAGEX ( VALUES ( Departement[code] ), CALCULATE ( SUM ( meteo_mensuelle[pluie_mm_moyenne_station] ) ) )
+		formatString: #,0
+		lineageTag: 545154dc-1da9-533f-806a-6bc64507da77
+
+	measure 'Tmax moyenne (°C)' = AVERAGE ( meteo_mensuelle[tmax_moyenne] )
+		formatString: 0.0
+		lineageTag: f7749b9f-90fe-5307-ae97-5466e643b921
+
+	measure 'Tmin moyenne (°C)' = AVERAGE ( meteo_mensuelle[tmin_moyenne] )
+		formatString: 0.0
+		lineageTag: 773e2153-153b-5ee5-8a3e-27b46bcb8e96
+
+	measure 'Jours de forte chaleur' = AVERAGEX ( VALUES ( Departement[code] ), CALCULATE ( SUM ( meteo_mensuelle[jours_chaleur_moyen_station] ) ) )
+		formatString: 0.0
+		lineageTag: 3a2b3751-7d27-52bc-b70d-a3ef465f6e91
+
+	column departement
+		isHidden
+		dataType: string
+		lineageTag: e5c5adce-df7e-42a2-8c69-779db9289efb
+		summarizeBy: none
+		sourceColumn: departement
+
+		annotation SummarizationSetBy = User
+
+	column mois
+		isHidden
+		dataType: string
+		lineageTag: c4331a2d-590e-4d89-98a4-1d72cd35ae0c
+		summarizeBy: none
+		sourceColumn: mois
+
+		annotation SummarizationSetBy = User
+
+	column campagne
+		isHidden
+		dataType: int64
+		formatString: 0
+		lineageTag: 7247ac0b-4188-4c2e-a460-ad9b623e1c7a
+		summarizeBy: none
+		sourceColumn: campagne
+
+		annotation SummarizationSetBy = User
+
+	column pluie_mm_moyenne_station
+		isHidden
+		dataType: double
+		lineageTag: 29263750-fe44-4b95-8e64-e37090e0be35
+		summarizeBy: none
+		sourceColumn: pluie_mm_moyenne_station
+
+		annotation SummarizationSetBy = User
+
+	column tmin_moyenne
+		isHidden
+		dataType: double
+		lineageTag: 25f4c9da-40f9-4cf2-b127-a15c14a770fb
+		summarizeBy: none
+		sourceColumn: tmin_moyenne
+
+		annotation SummarizationSetBy = User
+
+	column tmax_moyenne
+		isHidden
+		dataType: double
+		lineageTag: 73fc2e76-1fd6-4183-88dd-81ce6ca6f411
+		summarizeBy: none
+		sourceColumn: tmax_moyenne
+
+		annotation SummarizationSetBy = User
+
+	column jours_chaleur_moyen_station
+		isHidden
+		dataType: double
+		lineageTag: 313623ce-0327-4dd7-bee6-afdb930a3025
+		summarizeBy: none
+		sourceColumn: jours_chaleur_moyen_station
+
+		annotation SummarizationSetBy = User
+
+	column nb_stations_rr
+		isHidden
+		dataType: int64
+		formatString: 0
+		lineageTag: 5e0a5eec-f9f8-4276-875d-9553d2b3fb90
+		summarizeBy: none
+		sourceColumn: nb_stations_rr
+
+		annotation SummarizationSetBy = User
+
+	column nb_stations_tn
+		isHidden
+		dataType: int64
+		formatString: 0
+		lineageTag: 1f1817cd-18fe-421e-83d0-1122edb100fa
+		summarizeBy: none
+		sourceColumn: nb_stations_tn
+
+		annotation SummarizationSetBy = User
+
+	column nb_stations_tx
+		isHidden
+		dataType: int64
+		formatString: 0
+		lineageTag: 94faafd6-3cce-4332-bafb-fc5e038221f7
+		summarizeBy: none
+		sourceColumn: nb_stations_tx
+
+		annotation SummarizationSetBy = User
+
+	column mois_date
+		dataType: dateTime
+		formatString: mmm yy
+		lineageTag: 4d4d9816-ddb6-5753-b69e-2b036995350e
+		summarizeBy: none
+		sourceColumn: mois_date
+
+		annotation SummarizationSetBy = User
+
+	partition meteo_mensuelle = m
+		mode: import
+		source =
+				let
+				    Source = Odbc.DataSource("driver={SQLite3 ODBC Driver};database=C:\chemin\vers\meteo-cultures-tarn-aveyron\db\meteo_cultures.sqlite;dsn=dBASE Files", [HierarchicalNavigation=true]),
+				    meteo_mensuelle_View = Source{[Name="meteo_mensuelle",Kind="View"]}[Data],
+				    Types = Table.TransformColumnTypes(meteo_mensuelle_View, {{"campagne", Int64.Type}, {"pluie_mm_moyenne_station", type number}, {"tmin_moyenne", type number}, {"tmax_moyenne", type number}, {"jours_chaleur_moyen_station", type number}, {"nb_stations_rr", Int64.Type}, {"nb_stations_tn", Int64.Type}, {"nb_stations_tx", Int64.Type}}, "en-US"),
+				    AvecDate = Table.AddColumn(Types, "mois_date", each Date.FromText([mois] & "-01", [Format = "yyyy-MM-dd", Culture = "en-US"]), type date)
+				in
+				    AvecDate
+
+	annotation PBI_ResultType = Table

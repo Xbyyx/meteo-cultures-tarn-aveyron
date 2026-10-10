@@ -8,3 +8,7 @@ __pycache__/
 
 # Sauvegardes Power BI
 *.pbix.bak
+
+# Power BI : caches locaux et sauvegardes
+**/.pbi/
+dashboard_sauvegarde/

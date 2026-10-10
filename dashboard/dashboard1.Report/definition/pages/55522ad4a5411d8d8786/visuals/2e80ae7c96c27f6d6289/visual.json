@@ -1,0 +1,152 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "2e80ae7c96c27f6d6289",
+  "position": {
+    "x": 20,
+    "y": 430,
+    "z": 8000,
+    "height": 270,
+    "width": 1240,
+    "tabOrder": 8000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Departement"
+                    }
+                  },
+                  "Property": "nom"
+                }
+              },
+              "queryRef": "Departement.nom",
+              "nativeQueryRef": "nom",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Campagne"
+                    }
+                  },
+                  "Property": "campagne"
+                }
+              },
+              "queryRef": "Campagne.campagne",
+              "nativeQueryRef": "campagne",
+              "active": true
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "surface_vs_meteo"
+                    }
+                  },
+                  "Property": "Surface (ha)"
+                }
+              },
+              "queryRef": "surface_vs_meteo.Surface (ha)",
+              "nativeQueryRef": "Surface (ha)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "meteo_mensuelle"
+                    }
+                  },
+                  "Property": "Pluie (mm)"
+                }
+              },
+              "queryRef": "meteo_mensuelle.Pluie (mm)",
+              "nativeQueryRef": "Pluie (mm)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "meteo_mensuelle"
+                    }
+                  },
+                  "Property": "Jours de forte chaleur"
+                }
+              },
+              "queryRef": "meteo_mensuelle.Jours de forte chaleur",
+              "nativeQueryRef": "Jours de forte chaleur"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "meteo_mensuelle"
+                    }
+                  },
+                  "Property": "Tmax moyenne (°C)"
+                }
+              },
+              "queryRef": "meteo_mensuelle.Tmax moyenne (°C)",
+              "nativeQueryRef": "Tmax moyenne (°C)"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Le détail, département par département'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'météo à l''échelle du département · campagne = année civile · cumuls sur les jours renseignés'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,117 @@
+table surface_vs_meteo
+	lineageTag: fbdd94a4-c9d5-4e0f-86d7-95f98f4e7816
+
+	measure 'Surface (ha)' = VAR c = MAX ( Campagne[campagne] ) RETURN CALCULATE ( SUM ( surface_vs_meteo[surface_ha] ), surface_vs_meteo[campagne] = c )
+		formatString: #,0 "ha"
+		lineageTag: 650b1829-ea81-5943-8418-58dcd4896a66
+
+	measure 'Parcelles' = VAR c = MAX ( Campagne[campagne] ) RETURN CALCULATE ( SUM ( surface_vs_meteo[nb_parcelles] ), surface_vs_meteo[campagne] = c )
+		formatString: #,0
+		lineageTag: 4d55b24b-7b28-59d8-9ee5-aeb4c9e367c1
+
+	measure 'Surface hors prairies (ha)' = CALCULATE ( [Surface (ha)], surface_vs_meteo[culture] <> "Prairies" )
+		formatString: #,0 "ha"
+		lineageTag: 5ddceb52-1214-5357-a922-56ecca96558b
+
+	measure 'Part des prairies' = DIVIDE ( CALCULATE ( [Surface (ha)], surface_vs_meteo[culture] = "Prairies" ), CALCULATE ( [Surface (ha)], REMOVEFILTERS ( surface_vs_meteo[culture] ) ) )
+		formatString: 0.0%
+		lineageTag: 398411e1-dacf-54d6-8454-87d183b03607
+
+	measure 'Évolution vs campagne précédente' = VAR c = MAX ( Campagne[campagne] ) VAR prev = CALCULATE ( SUM ( surface_vs_meteo[surface_ha] ), REMOVEFILTERS ( Campagne ), surface_vs_meteo[campagne] = c - 1 ) VAR cur = [Surface (ha)] RETURN IF ( ISBLANK ( prev ) || prev = 0, "n.d.", FORMAT ( DIVIDE ( cur - prev, prev ), "+0.0 %;-0.0 %;0.0 %" ) )
+		lineageTag: bdfcdd87-5bfb-594e-af38-82cdda07702c
+
+	column campagne
+		isHidden
+		dataType: int64
+		formatString: 0
+		lineageTag: 7d5f6694-1d74-44de-abc2-ffda055599f8
+		summarizeBy: none
+		sourceColumn: campagne
+
+		annotation SummarizationSetBy = User
+
+	column departement
+		isHidden
+		dataType: string
+		lineageTag: a5d7da2c-4d44-4541-a225-239b404e4eb7
+		summarizeBy: none
+		sourceColumn: departement
+
+		annotation SummarizationSetBy = User
+
+	column culture
+		dataType: string
+		lineageTag: e5578cb8-7b0a-42db-9487-a0f0c81a87e8
+		summarizeBy: none
+		sourceColumn: culture
+
+		annotation SummarizationSetBy = User
+
+	column nb_parcelles
+		isHidden
+		dataType: int64
+		formatString: 0
+		lineageTag: 0ec0c3df-0495-4b68-a1aa-2a7012bd9f4d
+		summarizeBy: none
+		sourceColumn: nb_parcelles
+
+		annotation SummarizationSetBy = User
+
+	column surface_ha
+		isHidden
+		dataType: double
+		lineageTag: 27a028e5-a601-4549-ab43-96e6abd106a2
+		summarizeBy: none
+		sourceColumn: surface_ha
+
+		annotation SummarizationSetBy = User
+
+	column pluie_annuelle_mm_moyenne_station
+		isHidden
+		dataType: double
+		lineageTag: 9676a587-ba3a-4b3f-9380-3c36b78c0c4e
+		summarizeBy: none
+		sourceColumn: pluie_annuelle_mm_moyenne_station
+
+		annotation SummarizationSetBy = User
+
+	column jours_chaleur_moyen_station
+		isHidden
+		dataType: double
+		lineageTag: e27df9e5-9d16-4a3f-a3f3-bfc1d26f58ad
+		summarizeBy: none
+		sourceColumn: jours_chaleur_moyen_station
+
+		annotation SummarizationSetBy = User
+
+	column nb_stations_rr
+		isHidden
+		dataType: int64
+		formatString: 0
+		lineageTag: 2396acb8-0e5b-4db8-9709-3654fdbc4539
+		summarizeBy: none
+		sourceColumn: nb_stations_rr
+
+		annotation SummarizationSetBy = User
+
+	column nb_stations_tx
+		isHidden
+		dataType: int64
+		formatString: 0
+		lineageTag: 28f0f833-2612-4ea2-af2e-398f51b3cfb3
+		summarizeBy: none
+		sourceColumn: nb_stations_tx
+
+		annotation SummarizationSetBy = User
+
+	partition surface_vs_meteo = m
+		mode: import
+		source =
+				let
+				    Source = Odbc.DataSource("driver={SQLite3 ODBC Driver};database=C:\chemin\vers\meteo-cultures-tarn-aveyron\db\meteo_cultures.sqlite;dsn=dBASE Files", [HierarchicalNavigation=true]),
+				    surface_vs_meteo_View = Source{[Name="surface_vs_meteo",Kind="View"]}[Data],
+				    Types = Table.TransformColumnTypes(surface_vs_meteo_View, {{"campagne", Int64.Type}, {"nb_parcelles", Int64.Type}, {"surface_ha", type number}, {"pluie_annuelle_mm_moyenne_station", type number}, {"jours_chaleur_moyen_station", type number}, {"nb_stations_rr", Int64.Type}, {"nb_stations_tx", Int64.Type}}, "en-US")
+				in
+				    Types
+
+	annotation PBI_ResultType = Table

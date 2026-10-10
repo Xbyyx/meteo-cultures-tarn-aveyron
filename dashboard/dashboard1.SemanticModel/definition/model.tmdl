@@ -1,0 +1,22 @@
+model Model
+	culture: fr-FR
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: fr-FR
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["surface_vs_meteo","meteo_mensuelle","Departement","Campagne"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table surface_vs_meteo
+ref table meteo_mensuelle
+ref table Departement
+ref table Campagne
+
+ref cultureInfo fr-FR
+

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "c5f0176dd2a1ff85512b",
+  "displayName": "Cultures",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280,
+  "visualInteractions": [
+    {
+      "source": "4b13eb768956cbbecf2e",
+      "target": "002aa888abdfa945f6df",
+      "type": "NoFilter"
+    }
+  ]
+}

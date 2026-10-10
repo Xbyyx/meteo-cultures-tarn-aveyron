@@ -1,0 +1,28 @@
+table Departement
+	lineageTag: a685f10d-692d-5426-a375-b0530cde966b
+
+	column code
+		dataType: string
+		lineageTag: 3d0fe783-86d1-542d-b387-2f62aa5f0bf3
+		summarizeBy: none
+		sourceColumn: code
+
+		annotation SummarizationSetBy = User
+
+	column nom
+		dataType: string
+		lineageTag: cc293e71-ffeb-5cbf-b808-35a46475c556
+		summarizeBy: none
+		sourceColumn: nom
+
+		annotation SummarizationSetBy = User
+
+	partition Departement = m
+		mode: import
+		source =
+				let
+				    Source = #table(type table [code = text, nom = text], {{"12", "Aveyron"}, {"81", "Tarn"}})
+				in
+				    Source
+
+	annotation PBI_ResultType = Table

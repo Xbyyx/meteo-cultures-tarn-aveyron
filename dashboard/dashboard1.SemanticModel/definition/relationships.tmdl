@@ -1,0 +1,15 @@
+relationship 572b578c-8dbf-5c74-b877-d1f950886bb8
+	fromColumn: meteo_mensuelle.departement
+	toColumn: Departement.code
+
+relationship 2bf0eb8b-ecc8-58e9-8c5a-e07949f2cd45
+	fromColumn: meteo_mensuelle.campagne
+	toColumn: Campagne.campagne
+
+relationship cc4c9436-df36-52a6-9a96-eaad546c71b9
+	fromColumn: surface_vs_meteo.departement
+	toColumn: Departement.code
+
+relationship 50fadd38-5ba4-5446-b1f1-024fcdc461fe
+	fromColumn: surface_vs_meteo.campagne
+	toColumn: Campagne.campagne
