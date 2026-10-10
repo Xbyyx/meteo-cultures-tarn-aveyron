@@ -5,7 +5,7 @@
     "x": 959,
     "y": 136,
     "z": 8000,
-    "height": 88,
+    "height": 96,
     "width": 301,
     "tabOrder": 8000
   },
@@ -41,6 +41,19 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "labels": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "22D"
                 }
               }
             }

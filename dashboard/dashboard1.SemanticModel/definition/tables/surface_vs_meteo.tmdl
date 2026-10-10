@@ -9,7 +9,7 @@ table surface_vs_meteo
 		formatString: #,0
 		lineageTag: 4d55b24b-7b28-59d8-9ee5-aeb4c9e367c1
 
-	measure 'Surface hors prairies (ha)' = CALCULATE ( [Surface (ha)], surface_vs_meteo[culture] <> "Prairies" )
+	measure 'Surface hors prairies (ha)' = CALCULATE ( [Surface (ha)], KEEPFILTERS ( surface_vs_meteo[culture] <> "Prairies" ) )
 		formatString: #,0 "ha"
 		lineageTag: 5ddceb52-1214-5357-a922-56ecca96558b
 
