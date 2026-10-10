@@ -108,7 +108,7 @@ table surface_vs_meteo
 		mode: import
 		source =
 				let
-				    Source = Odbc.DataSource("driver={SQLite3 ODBC Driver};database=C:\chemin\vers\meteo-cultures-tarn-aveyron\db\meteo_cultures.sqlite;dsn=dBASE Files", [HierarchicalNavigation=true]),
+				    Source = Odbc.DataSource("driver={SQLite3 ODBC Driver};database=" & CheminBase & "\db\meteo_cultures.sqlite;dsn=dBASE Files", [HierarchicalNavigation=true]),
 				    surface_vs_meteo_View = Source{[Name="surface_vs_meteo",Kind="View"]}[Data],
 				    Types = Table.TransformColumnTypes(surface_vs_meteo_View, {{"campagne", Int64.Type}, {"nb_parcelles", Int64.Type}, {"surface_ha", type number}, {"pluie_annuelle_mm_moyenne_station", type number}, {"jours_chaleur_moyen_station", type number}, {"nb_stations_rr", Int64.Type}, {"nb_stations_tx", Int64.Type}}, "en-US")
 				in

@@ -9,7 +9,7 @@ model Model
 
 annotation __PBI_TimeIntelligenceEnabled = 0
 
-annotation PBI_QueryOrder = ["surface_vs_meteo","meteo_mensuelle","Departement","Campagne"]
+annotation PBI_QueryOrder = ["CheminBase","surface_vs_meteo","meteo_mensuelle","Departement","Campagne"]
 
 annotation PBI_ProTooling = ["DevMode"]
 
@@ -17,6 +17,8 @@ ref table surface_vs_meteo
 ref table meteo_mensuelle
 ref table Departement
 ref table Campagne
+
+ref expression CheminBase
 
 ref cultureInfo fr-FR
 

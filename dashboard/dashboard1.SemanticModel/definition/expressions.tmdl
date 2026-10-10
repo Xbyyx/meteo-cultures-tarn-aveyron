@@ -1,0 +1,6 @@
+expression CheminBase = "C:\chemin\vers\meteo-cultures-tarn-aveyron" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 4354d3c3-7ac0-4f47-9baf-99fa920989a4
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text

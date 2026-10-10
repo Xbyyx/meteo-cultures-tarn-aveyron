@@ -124,7 +124,7 @@ table meteo_mensuelle
 		mode: import
 		source =
 				let
-				    Source = Odbc.DataSource("driver={SQLite3 ODBC Driver};database=C:\chemin\vers\meteo-cultures-tarn-aveyron\db\meteo_cultures.sqlite;dsn=dBASE Files", [HierarchicalNavigation=true]),
+				    Source = Odbc.DataSource("driver={SQLite3 ODBC Driver};database=" & CheminBase & "\db\meteo_cultures.sqlite;dsn=dBASE Files", [HierarchicalNavigation=true]),
 				    meteo_mensuelle_View = Source{[Name="meteo_mensuelle",Kind="View"]}[Data],
 				    Types = Table.TransformColumnTypes(meteo_mensuelle_View, {{"campagne", Int64.Type}, {"pluie_mm_moyenne_station", type number}, {"tmin_moyenne", type number}, {"tmax_moyenne", type number}, {"jours_chaleur_moyen_station", type number}, {"nb_stations_rr", Int64.Type}, {"nb_stations_tn", Int64.Type}, {"nb_stations_tx", Int64.Type}}, "en-US"),
 				    AvecDate = Table.AddColumn(Types, "mois_date", each Date.FromText([mois] & "-01", [Format = "yyyy-MM-dd", Culture = "en-US"]), type date)
